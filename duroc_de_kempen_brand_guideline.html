@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brand Guideline — Duroc de Kempen</title>
+<style>
+  :root {
+    --rood: #8B2635;
+    --rood-licht: #A63344;
+    --donker: #1C1C1A;
+    --grijs: #4A4945;
+    --grijs-muted: #7A7870;
+    --creme: #F5F2ED;
+    --wit: #FFFFFF;
+    --border: #E0DDD7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--wit);
+    color: var(--donker);
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+    line-height: 1.7;
+  }
+  .cover {
+    border-bottom: 2px solid var(--rood);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+  }
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grijs-muted);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 0.5rem;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--rood);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+  .cover-sub { font-size: 16px; color: var(--grijs); }
+  .cover-datum { font-size: 12px; color: var(--grijs-muted); margin-top: 0.75rem; font-family: 'Courier New', monospace; }
+  h2 {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--grijs-muted);
+    font-family: 'Courier New', monospace;
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  h3 { font-size: 16px; font-weight: 700; color: var(--donker); margin: 1.5rem 0 0.5rem; }
+  p { margin-bottom: 0.75rem; font-size: 15px; }
+
+  .slogan-blok {
+    background: var(--donker);
+    border-radius: 6px;
+    padding: 2rem 2.5rem;
+    margin: 1rem 0;
+  }
+  .slogan-hoofdtekst {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--wit);
+    font-family: Georgia, serif;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  .slogan-sub {
+    font-size: 16px;
+    color: #A63344;
+    font-family: Georgia, serif;
+  }
+  .slogan-toelichting {
+    font-size: 13px;
+    color: var(--grijs-muted);
+    margin-top: 1rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  .kleur-rij { display: flex; gap: 12px; flex-wrap: wrap; margin: 1rem 0; }
+  .kleur-blok { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .kleur-cirkel { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--border); }
+  .kleur-naam { font-size: 12px; color: var(--grijs); text-align: center; }
+  .kleur-hex { font-size: 11px; color: var(--grijs-muted); font-family: 'Courier New', monospace; }
+
+  .font-blok { margin: 1.25rem 0; padding: 1rem 1.25rem; background: var(--creme); border-radius: 6px; }
+  .font-label { font-size: 11px; font-family: 'Courier New', monospace; color: var(--grijs-muted); margin-bottom: 6px; }
+  .font-voorbeeld-display { font-size: 28px; font-weight: 700; color: var(--donker); line-height: 1.2; }
+  .font-voorbeeld-body { font-size: 16px; color: var(--donker); line-height: 1.7; }
+  .font-voorbeeld-accent { font-size: 16px; font-weight: 700; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--rood); }
+
+  .usp-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .usp-kaart { border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; background: var(--creme); }
+  .usp-nr { font-size: 11px; color: var(--rood); font-family: 'Courier New', monospace; font-weight: 700; margin-bottom: 4px; }
+  .usp-titel { font-size: 14px; font-weight: 700; color: var(--donker); margin-bottom: 4px; }
+  .usp-tekst { font-size: 13px; color: var(--grijs); line-height: 1.5; }
+
+  .tijdlijn { margin: 1.5rem 0; border-left: 2px solid var(--rood); padding-left: 1.5rem; }
+  .tijdlijn-item { margin-bottom: 1.5rem; position: relative; }
+  .tijdlijn-item::before {
+    content: '';
+    position: absolute;
+    left: -1.85rem;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--rood);
+  }
+  .tijdlijn-jaar { font-size: 13px; font-weight: 700; color: var(--rood); font-family: 'Courier New', monospace; margin-bottom: 2px; }
+  .tijdlijn-tekst { font-size: 14px; color: var(--grijs); line-height: 1.5; }
+
+  .nav-rij { display: flex; gap: 8px; flex-wrap: wrap; margin: 1rem 0; }
+  .nav-item { padding: 6px 14px; border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--donker); }
+  .nav-item.prio { background: var(--rood); color: var(--wit); border-color: var(--rood); font-weight: 700; }
+
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .do-blok, .dont-blok { padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); }
+  .do-blok { background: #EAF3DE; }
+  .dont-blok { background: #FCEBEB; }
+  .do-label { font-size: 11px; font-family: 'Courier New', monospace; font-weight: 700; color: #3B6D11; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .dont-label { font-size: 11px; font-family: 'Courier New', monospace; font-weight: 700; color: #A32D2D; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .do-blok p, .dont-blok p { font-size: 13px; margin-bottom: 0.4rem; }
+
+  .beeld-rij { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 1rem 0; }
+  .beeld-blok { padding: 1rem 1.25rem; border-radius: 6px; border: 1px solid var(--border); background: var(--creme); }
+  .beeld-label { font-size: 11px; font-family: 'Courier New', monospace; font-weight: 700; color: var(--grijs-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .beeld-blok li { font-size: 13px; color: var(--grijs); line-height: 1.7; list-style: none; padding-left: 0; }
+  .beeld-blok li::before { content: "— "; color: var(--rood); font-weight: 700; }
+
+  .keten-blok {
+    background: var(--creme);
+    border-left: 3px solid var(--rood);
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+    margin: 1rem 0;
+    font-size: 14px;
+    color: var(--grijs);
+    line-height: 1.6;
+  }
+
+  .pagina-blok { margin: 1.25rem 0; padding: 1rem 1.25rem; border: 1px solid var(--border); border-radius: 6px; }
+  .pagina-naam { font-size: 13px; font-weight: 700; font-family: 'Courier New', monospace; color: var(--rood); margin-bottom: 6px; }
+  .pagina-tekst { font-size: 13px; color: var(--grijs); line-height: 1.6; }
+  .pagina-tekst li { margin-left: 1rem; margin-bottom: 2px; }
+
+  .template-rij { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 1rem 0; }
+  .template-kaart { border-radius: 6px; aspect-ratio: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; color: white; font-size: 11px; line-height: 1.4; }
+  .template-naam { font-weight: 700; margin-bottom: 2px; }
+  .template-type { opacity: 0.7; }
+
+  .footer-note { margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 12px; color: var(--grijs-muted); font-family: 'Courier New', monospace; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-label">Interne referentie</div>
+  <h1>Brand Guideline<br>Duroc de Kempen</h1>
+  <p class="cover-sub">Huisstijl, tone of voice en websitestructuur</p>
+  <p class="cover-datum">Versie 1.1 — Juni 2026</p>
+</div>
+
+<h2>01 — Identiteit</h2>
+<h3>Wie zijn we</h3>
+<p>Duroc de Kempen is een familiaal varkensbedrijf in Weelde, opgericht in 2000 door Ann en Frank Van Dijck. Wij fokken Duroc-varkens en de Ambiorixx-lijn. Alles gebeurt op onze eigen boerderij: geboorte, opgroeien, voeding en transport naar het slachthuis. Dat is onze kernbelofte en ons scherpste onderscheidend voordeel ten opzichte van Brasvar en Duroc d'Olives.</p>
+<p>Wij werken samen met drie grossisten die onze varkens ophalen bij het slachthuis en de slagers beleveren op maat. Wij factureren aan de grossist. Met slagers houden wij nauw contact, want zij zijn onze ambassadeurs bij de eindconsument. De grossisten en onze prijsstrategie vermelden we niet in externe communicatie.</p>
+
+<h3>Positionering</h3>
+<p>Wij mikken op slagers die kwaliteit naar waarde schatten. Onze Duroc-varkens kennen een vaste prijs, ongeacht de marktprijs voor regulier varkensvlees. Dat geeft slagers zekerheid. Wij spreken consequent over "Duroc vlees" in plaats van "varkensvlees": het ras is de kwaliteitsreferentie, niet de diersoort.</p>
+
+<h2>02 — Slogan en subslogan</h2>
+<div class="slogan-blok">
+  <div class="slogan-hoofdtekst">Duroc vlees uit eigen stal.</div>
+  <div class="slogan-sub">Gekweekt in de Kempen, van begin tot eind.</div>
+  <div class="slogan-toelichting">Slogan — subslogan. Gebruik altijd samen waar mogelijk.</div>
+</div>
+<p>De slogan zegt in vijf woorden wat ons onderscheidt: het ras, de eigenheid en de locatie. De subslogan legt de context: streek en het A-tot-Z verhaal. Geen woordspelingen, geen opgesomde adjectieven. Benchmarkcheck: Duroc d'Olives gebruikt "sappig, smaakvol, én lokaal gekweekt", Brasvar focust op geografie zonder onderscheid. Onze combinatie is compacter en onderscheidender.</p>
+<p>De vroegere slogan "Liefde voor dieren, passie voor vlees" en subslogan "(H)eerlijk vlees uit eigen streek" worden niet langer gebruikt in nieuwe communicatie.</p>
+
+<h2>03 — Het verhaal van Ann en Frank (tijdlijn)</h2>
+<p>Gebruik dit als basis voor de "Over ons" pagina en als kapstok voor het A-tot-Z verhaal op "Uit eigen stal".</p>
+<div class="tijdlijn">
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2000</div>
+    <div class="tijdlijn-tekst">Ann en Frank wagen de stap en nemen een varkensbedrijf over in Weelde. Jong en ambitieus, vol plannen voor de Noorderkempen.</div>
+  </div>
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2017</div>
+    <div class="tijdlijn-tekst">Na contact met inspirerende mensen rijpt het idee: overschakelen op het Duroc-ras. Bewuste keuze voor smaak boven volume. De Noorse zeugen worden gekruist met Duroc-beren.</div>
+  </div>
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2018</div>
+    <div class="tijdlijn-tekst">Via een toevallig contact met Filip van Slagerij Ceursters wordt Duroc de Kempen als merk geboren. Een eerste trouwe partner die het verschil in kwaliteit meteen erkent.</div>
+  </div>
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2023</div>
+    <div class="tijdlijn-tekst">Opening van de kijkstal: een gangpad waarlangs bezoekers de varkens kunnen observeren zonder de stal in te gaan. Transparantie als architectuur.</div>
+  </div>
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2023</div>
+    <div class="tijdlijn-tekst">Onder hetzelfde dak als de kijkstal opent hoevezaal 't Perspektief. De boerderij wordt een beleving voor bedrijven en particulieren.</div>
+  </div>
+  <div class="tijdlijn-item">
+    <div class="tijdlijn-jaar">2024</div>
+    <div class="tijdlijn-tekst">Lancering van Ambiorixx: een kruising van Duroc-zeug met menapische beer. Krachtigere smaak, stevige textuur, niche product voor fijnproevers.</div>
+  </div>
+</div>
+
+<h2>04 — Kleurenpalet</h2>
+<div class="kleur-rij">
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#8B2635;"></div>
+    <div class="kleur-naam">Primair rood</div>
+    <div class="kleur-hex">#8B2635</div>
+  </div>
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#A63344;"></div>
+    <div class="kleur-naam">Rood licht</div>
+    <div class="kleur-hex">#A63344</div>
+  </div>
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#1C1C1A;"></div>
+    <div class="kleur-naam">Bijna zwart</div>
+    <div class="kleur-hex">#1C1C1A</div>
+  </div>
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#4A4945;"></div>
+    <div class="kleur-naam">Donkergrijs</div>
+    <div class="kleur-hex">#4A4945</div>
+  </div>
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#F5F2ED; border:1px solid #ddd;"></div>
+    <div class="kleur-naam">Crème</div>
+    <div class="kleur-hex">#F5F2ED</div>
+  </div>
+  <div class="kleur-blok">
+    <div class="kleur-cirkel" style="background:#FFFFFF; border:1px solid #ddd;"></div>
+    <div class="kleur-naam">Wit</div>
+    <div class="kleur-hex">#FFFFFF</div>
+  </div>
+</div>
+<p style="font-size:13px; color:var(--grijs-muted);">Rood is accent en CTA, nooit achtergrond voor lange tekst. Crème als warme neutrale achtergrond. Bijna zwart voor titels op lichte achtergronden.</p>
+
+<h2>05 — Logo</h2>
+<p>Het logo wordt altijd gebruikt als PNG-bestand (Ontwerp_zonder_titel.png). Het gestempelde karakter is een kernonderdeel van de huisstijl en mag niet worden nagemaakt of vervangen door een digitaal font. Op witte en crème achtergronden de volledige versie. Op donkere achtergronden de witte variant indien beschikbaar. Bewaar het logo in de assets-map van elk project.</p>
+
+<h2>06 — Typografie</h2>
+<div class="font-blok">
+  <div class="font-label">Display — titels en hero (website)</div>
+  <div class="font-voorbeeld-display">Duroc vlees uit eigen stal.</div>
+  <p style="font-size:12px; color:var(--grijs-muted); margin-top:8px;">Aanbevolen webfont: Playfair Display Bold. Robuust en serieus, past bij het karakter van het logo.</p>
+</div>
+<div class="font-blok">
+  <div class="font-label">Body — lopende tekst</div>
+  <div class="font-voorbeeld-body">In 2017 kozen we bewust voor het Duroc-ras. Niet omdat het trendy was, maar omdat het vlees beter is.</div>
+  <p style="font-size:12px; color:var(--grijs-muted); margin-top:8px;">Aanbevolen webfont: Source Serif 4 Regular. Leesbaar en warm.</p>
+</div>
+<div class="font-blok">
+  <div class="font-label">Accent — slogans en koppen op sociale media</div>
+  <div class="font-voorbeeld-accent">Goed vlees begint in de stal.</div>
+  <p style="font-size:12px; color:var(--grijs-muted); margin-top:8px;">Courier New Bold Uppercase. Geeft het stempel- en ambachtsgevoel passend bij het logo. Enkel voor korte uitspraken.</p>
+</div>
+
+<h2>07 — Tone of voice</h2>
+<p>Spreek zoals je tegen een slager zou praten die je nog niet kent, maar wiens vertrouwen je verdient. Geen trucjes, geen slogans die een marketeer bedacht. Feiten met overtuiging. De humor mag er zijn, maar dan als iets dat er vanzelf uitkomt.</p>
+<div class="do-dont">
+  <div class="do-blok">
+    <div class="do-label">Wel zo</div>
+    <p>"In 2017 kozen we bewust voor het Duroc-ras."</p>
+    <p>"Onze prijs staat vast. Jij weet waar je aan toe bent."</p>
+    <p>"Goed vlees begint in de stal."</p>
+    <p>"Wij brengen de varkens zelf naar het slachthuis. Korte rit, weinig stress."</p>
+  </div>
+  <div class="dont-blok">
+    <div class="dont-label">Niet zo</div>
+    <p>"Bij ons hoef je geen Sherlock te zijn."</p>
+    <p>"Geen romantiek, wel precisie en boerenverstand."</p>
+    <p>"Wij streven naar een optimale kwaliteitsbeleving."</p>
+    <p>"Onze premium producten onderscheiden zich."</p>
+  </div>
+</div>
+<p style="font-size:13px; color:var(--grijs-muted);">Vuistregel: zou Frank dit zelf ook zo zeggen? Zo ja, goed. Zo nee, herschrijven.</p>
+
+<h2>08 — Kernboodschappen (USP's)</h2>
+<div class="usp-rij">
+  <div class="usp-kaart">
+    <div class="usp-nr">USP 1</div>
+    <div class="usp-titel">Alles op één boerderij</div>
+    <div class="usp-tekst">Geboorte, opgroeien, voeding en transport naar het slachthuis. Alles op één locatie, door dezelfde mensen. Uniek ten opzichte van Brasvar en Duroc d'Olives.</div>
+  </div>
+  <div class="usp-kaart">
+    <div class="usp-nr">USP 2</div>
+    <div class="usp-titel">Voeding maakt het verschil</div>
+    <div class="usp-tekst">Circulair brijvoer samengesteld uit reststromen van de voedingsindustrie: aardappelschillen, tarwe, soja. Smaak én duurzaamheid in één.</div>
+  </div>
+  <div class="usp-kaart">
+    <div class="usp-nr">USP 3</div>
+    <div class="usp-titel">Dierenwelzijn als basis</div>
+    <div class="usp-tekst">Krulstaart intact. Geen onnodige verplaatsingen tussen stallen. Weinig stress. Dat proef je terug in het vlees.</div>
+  </div>
+  <div class="usp-kaart">
+    <div class="usp-nr">USP 4</div>
+    <div class="usp-titel">Twee productlijnen</div>
+    <div class="usp-tekst">Duroc is de hoofdlijn. Ambiorixx is de niche: kruising van Duroc-zeug met menapische beer, krachtigere smaak, bij een selecte groep slagers.</div>
+  </div>
+</div>
+<div class="keten-blok">
+  Wat we niet vermelden in externe communicatie: de namen van de grossisten, onze prijsstrategie, en de detailsvan de distributieketen. Slagers die vragen stellen krijgen uiteraard een eerlijk antwoord.
+</div>
+
+<h2>09 — Websitestructuur</h2>
+<div class="nav-rij">
+  <span class="nav-item">Over ons</span>
+  <span class="nav-item prio">Uit eigen stal</span>
+  <span class="nav-item">Verkooppunten</span>
+  <span class="nav-item">Hoevezaal 't Perspektief</span>
+  <span class="nav-item">Contact</span>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Homepage</div>
+  <div class="pagina-tekst">
+    Hero met slogan en subslogan. Drie pijlers visueel: kwaliteit, dierenwelzijn, duurzaamheid. Korte introductie Duroc vlees. Testimonial van een slager. Aparte CTA voor hoevezaal. Geen lange tekst.
+  </div>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Over ons</div>
+  <div class="pagina-tekst">
+    Het verhaal van Ann en Frank als tijdlijn (2000, 2017, 2018, 2023, 2024). Persoonlijk en feitelijk. Geen marketingtaal.
+  </div>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Uit eigen stal (primaire pagina voor slagers)</div>
+  <div class="pagina-tekst">
+    Structuur: A-tot-Z verhaal als kapstok, dan het Duroc-ras en de voeding, dan dierenwelzijn, dan een sectie Ambiorixx (eigen sectie, nog geen aparte pagina want volumes te klein), dan verkooppunten als afsluiter.
+  </div>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Hoevezaal 't Perspektief</div>
+  <div class="pagina-tekst">
+    Kijkstal en zaalverhuur op één pagina. Twee doelgroepen: bedrijven (vergadering, workshop, bedrijfsfeest) en particulieren (familiefeest, verjaardag, communiefeest). Directe CTA: bel of mail, geen formulier. Praktische info: capaciteit, openingsuren kijkstal (ma, wo, vr 10u-17u).
+  </div>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Verkooppunten</div>
+  <div class="pagina-tekst">Kaart met zoekfunctie op postcode. Lijst van aangesloten slagers met logo.</div>
+</div>
+
+<div class="pagina-blok">
+  <div class="pagina-naam">Contact</div>
+  <div class="pagina-tekst">
+    Telefoon en e-mail prominent. Geen contactformulier. Adres: Hegge 111, 2381 Weelde.
+  </div>
+</div>
+
+<h2>10 — Beeldstijl</h2>
+<div class="beeld-rij">
+  <div class="beeld-blok">
+    <div class="beeld-label">Gebruik</div>
+    <ul>
+      <li>Authentieke boerderijfoto's</li>
+      <li>Ann en Frank aan het werk</li>
+      <li>Close-ups van vlees en dieren</li>
+      <li>Zwart-wit voor verhaalonderdelen</li>
+      <li>Ronde en organische grafische vormen</li>
+      <li>Foto boven tekst, nooit andersom</li>
+    </ul>
+  </div>
+  <div class="beeld-blok">
+    <div class="beeld-label">Vermijd</div>
+    <ul>
+      <li>Stockfoto's</li>
+      <li>Te perfecte of gelikte beelden</li>
+      <li>Trapeziumvormige uitsnedes</li>
+      <li>Te veel tekst over foto's</li>
+      <li>Inconsistente kleurfilters</li>
+      <li>Meer dan één CTA per pagina</li>
+    </ul>
+  </div>
+</div>
+
+<h2>11 — Sociale media templates</h2>
+<div class="template-rij">
+  <div class="template-kaart" style="background:linear-gradient(135deg,#1C1C1A 60%,#8B2635 100%);">
+    <div class="template-naam">Vet feitje</div>
+    <div class="template-type">Foto + rode cirkel + Courier</div>
+  </div>
+  <div class="template-kaart" style="background:#F5F2ED;">
+    <div class="template-naam" style="color:#1C1C1A;">Citaat</div>
+    <div class="template-type" style="color:#7A7870;">Wit + rode accenten</div>
+  </div>
+  <div class="template-kaart" style="background:linear-gradient(180deg,#2a2a28 0%,#8B2635 100%);">
+    <div class="template-naam">Foto overlay</div>
+    <div class="template-type">Z/W foto + wit Courier</div>
+  </div>
+  <div class="template-kaart" style="background:#8B2635;">
+    <div class="template-naam">Thema card</div>
+    <div class="template-type">Rood blok + wit sans</div>
+  </div>
+</div>
+<p style="font-size:13px; color:var(--grijs-muted);">Nieuwe templates vertrekken altijd vanuit deze brand guideline. Stelregel: zou Frank dit zelf ook zo zeggen?</p>
+
+<div class="footer-note">
+  Duroc de Kempen — Brand Guideline v1.1 — Juni 2026<br>
+  Intern document. Gebruik als briefing voor website, sociale media en Claude Code.
+</div>
+
+</body>
+</html>

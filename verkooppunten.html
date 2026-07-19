@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vind een slager bij jou in de buurt die Duroc de Kempen vlees verkoopt.">
+  <title>Verkooppunten — Duroc de Kempen</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ── ZOEKBALK ── */
+    .zoekbalk {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin-bottom: 1.5rem;
+    }
+
+    .zoekbalk input {
+      flex: 1;
+      padding: 0.8rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      border: 1.5px solid var(--border);
+      border-right: none;
+      border-radius: 2px 0 0 2px;
+      background: var(--wit);
+      color: var(--donker);
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .zoekbalk input:focus { border-color: var(--rood); }
+    .zoekbalk input::placeholder { color: var(--grijs-muted); }
+
+    .zoekbalk button {
+      padding: 0.8rem 1.25rem;
+      background: var(--rood);
+      color: var(--wit);
+      border: none;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      font-family: var(--font-accent);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.18s;
+    }
+
+    .zoekbalk button:hover { background: var(--rood-licht); }
+
+    /* ── KAART + LIJST LAYOUT ── */
+    .kaart-lijst-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      height: 600px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    #kaart {
+      height: 100%;
+      z-index: 1;
+    }
+
+    /* ── SCROLLBARE LIJST ── */
+    .slager-scroll-lijst {
+      height: 100%;
+      overflow-y: auto;
+      border-left: 1.5px solid var(--border);
+      background: var(--wit);
+    }
+
+    .slager-scroll-lijst::-webkit-scrollbar { width: 5px; }
+    .slager-scroll-lijst::-webkit-scrollbar-track { background: var(--creme); }
+    .slager-scroll-lijst::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    .lijst-header {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1.5px solid var(--border);
+      background: var(--creme);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .lijst-header p {
+      font-family: var(--font-accent);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grijs-muted);
+      margin: 0;
+    }
+
+    .slager-item {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.15s;
+      border-left: 3px solid transparent;
+    }
+
+    .slager-item:hover { background: var(--creme); }
+
+    .slager-item.actief {
+      background: var(--creme);
+      border-left-color: var(--rood);
+    }
+
+    .slager-item__gemeente {
+      font-family: var(--font-accent);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--rood);
+      margin-bottom: 0.2rem;
+    }
+
+    .slager-item__naam {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--donker);
+      margin-bottom: 0.2rem;
+      line-height: 1.3;
+    }
+
+    .slager-item__adres {
+      font-size: 0.8125rem;
+      color: var(--grijs);
+      line-height: 1.45;
+      margin-bottom: 0.5rem;
+    }
+
+    .slager-item__contact {
+      font-size: 0.8125rem;
+      color: var(--grijs-muted);
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 0.15rem;
+      line-height: 1.4;
+    }
+
+    .slager-item__contact a {
+      color: var(--grijs);
+      word-break: break-all;
+    }
+
+    .slager-item__contact a:hover { color: var(--rood); }
+
+    /* ── LEAFLET POPUP OVERRIDE ── */
+    .leaflet-popup-content-wrapper {
+      border-radius: 3px !important;
+      box-shadow: 0 3px 18px rgba(0,0,0,0.18) !important;
+      padding: 0 !important;
+    }
+
+    .leaflet-popup-content {
+      margin: 0 !important;
+      padding: 1rem 1.125rem !important;
+      min-width: 200px;
+    }
+
+    .leaflet-popup-naam {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: #1C1C1A;
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
+    }
+
+    .leaflet-popup-adres {
+      font-size: 0.8125rem;
+      color: #7A7870;
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+
+    .leaflet-popup-contact {
+      font-size: 0.8125rem;
+      color: #7A7870;
+      margin-bottom: 0.15rem;
+    }
+
+    .leaflet-popup-contact a { color: #7A7870; }
+    .leaflet-popup-contact a:hover { color: #8B2635; }
+
+    .leaflet-popup-close-button {
+      color: #7A7870 !important;
+      font-size: 16px !important;
+      padding: 4px 6px !important;
+    }
+
+    .verborgen { display: none; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .kaart-lijst-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: 320px 320px;
+        height: auto;
+      }
+
+      #kaart { height: 320px; }
+
+      .slager-scroll-lijst {
+        height: 320px;
+        border-left: none;
+        border-top: 1.5px solid var(--border);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kaart-lijst-layout {
+        grid-template-rows: 260px 300px;
+      }
+
+      #kaart { height: 260px; }
+      .slager-scroll-lijst { height: 300px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="nav__logo">
+        <img src="logo_duroc_de_kempen.png" alt="Duroc de Kempen" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="nav__logo-text" style="display:none">Duroc de Kempen</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="over-ons.html">Over ons</a></li>
+        <li><a href="uit-eigen-stal.html">Uit eigen stal</a></li>
+        <li><a href="verkooppunten.html">Verkooppunten</a></li>
+        <li><a href="hoevezaal.html">Hoevezaal 't Perspektief</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__toggle" aria-label="Menu openen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="page-hero">
+      <div class="page-hero__inner container">
+        <p class="page-hero__eyebrow">Duroc de Kempen</p>
+        <h1 class="page-hero__titel">Verkooppunten</h1>
+        <p class="page-hero__tekst">Vind de dichtstbijzijnde Duroc de Kempen slager bij jou in de buurt.</p>
+      </div>
+    </section>
+
+    <section class="sectie sectie--wit">
+      <div class="container">
+
+        <div class="zoekbalk">
+          <input type="text" id="zoekInput" placeholder="Jouw gemeente of postcode&hellip;" aria-label="Zoek op gemeente of postcode">
+          <button onclick="filterSlagers()">Zoek</button>
+        </div>
+
+        <div class="kaart-lijst-layout">
+          <div id="kaart"></div>
+          <div class="slager-scroll-lijst">
+            <div class="lijst-header">
+              <p id="lijstTeller">25 verkooppunten</p>
+            </div>
+            <div id="slagerLijst"></div>
+          </div>
+        </div>
+
+        <p id="geenResultaten" class="verborgen" style="color:var(--grijs-muted); font-size:0.9375rem; margin-top:1rem">
+          Geen slagers gevonden voor jouw zoekopdracht. <a href="contact.html" style="color:var(--rood)">Neem contact op</a> als je weet welke slager in jouw buurt interesse heeft.
+        </p>
+
+      </div>
+    </section>
+
+    <!-- SLAGER WORDEN -->
+    <div class="cta-strip">
+      <div class="cta-strip__inner container">
+        <div>
+          <p class="cta-strip__titel">Slager en geïnteresseerd in Duroc de Kempen?</p>
+          <p class="cta-strip__sub">Neem contact op. We leggen je uit hoe het werkt.</p>
+        </div>
+        <a href="contact.html" class="btn btn--outline-wit">Contact opnemen</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <img src="logo_duroc_de_kempen.png" alt="Duroc de Kempen" class="footer__logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <span class="footer__logo-text" style="display:none">Duroc de Kempen</span>
+          <p class="footer__tagline">Duroc vlees uit eigen stal.<br>Gekweekt in de Kempen, van begin tot eind.</p>
+        </div>
+        <div>
+          <p class="footer__heading">Navigatie</p>
+          <nav class="footer__nav">
+            <a href="over-ons.html">Over ons</a>
+            <a href="uit-eigen-stal.html">Uit eigen stal</a>
+            <a href="verkooppunten.html">Verkooppunten</a>
+            <a href="hoevezaal.html">Hoevezaal 't Perspektief</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer__heading">Contact</p>
+          <address class="footer__adres">
+            Hegge 111<br>
+            2381 Weelde<br>
+            <br>
+            Ann &amp; Frank Van Dijck
+          </address>
+        </div>
+      </div>
+      <p class="footer__bottom">© 2026 Duroc de Kempen — Familie Van Dijck</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script>
+    const toggle = document.querySelector('.nav__toggle');
+    const links = document.querySelector('.nav__links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav__links a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('actief');
+    });
+
+    /* ── COPY FUNCTIONALITEIT ── */
+    const COPY_SVG = '<svg class="copy-btn__copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 0 1 1-1h8"/></svg><svg class="copy-btn__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>';
+
+    function attachCopyHandlers(parent) {
+      parent.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+            btn.classList.add('copied');
+            try {
+              const ctx = new (window.AudioContext || window.webkitAudioContext)();
+              const osc = ctx.createOscillator(); const gain = ctx.createGain();
+              osc.connect(gain); gain.connect(ctx.destination);
+              osc.type = 'sine'; osc.frequency.value = 880;
+              gain.gain.setValueAtTime(0.07, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+              osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.25);
+            } catch(e) {}
+            setTimeout(() => btn.classList.remove('copied'), 2000);
+          });
+        });
+      });
+    }
+
+    /* ── VERKOOPPUNTEN DATA ── */
+    const slagers = [
+      { id: 1,  naam: 'Slagerij Mertens-Boonen',       straat: 'Dorp 86',                    postcode: '2382', gemeente: 'Poppel',         tel: '014 71 60 71', email: 'info@slagerijmertensboonen.be', lat: 51.4476493, lng: 5.0440420, ambiorixx: false },
+      { id: 2,  naam: 'Slagerij Ceursters',             straat: 'Steenweg op Ravels 85',       postcode: '2360', gemeente: 'Oud-Turnhout',   tel: '014 55 50 45', email: 'info@ceursters.be',             lat: 51.3392023, lng: 4.9704209, ambiorixx: false },
+      { id: 3,  naam: 'Vleesatelier 41',                straat: 'Vrijheid 41',                 postcode: '2370', gemeente: 'Arendonk',       tel: '014 54 00 74', email: 'vansweevelt.jacobs@proximus.be', lat: 51.3209131, lng: 5.0879933, ambiorixx: false },
+      { id: 4,  naam: 'Slagerij Hofkens',               straat: 'Leopoldstraat 17',            postcode: '2330', gemeente: 'Merksplas',      tel: '014 63 39 33', email: 'info@slagerij-hofkens.be',      lat: 51.3572001, lng: 4.8644931, ambiorixx: false },
+      { id: 5,  naam: 'Slagerij Dockx',                 straat: 'Steenweg op Gierle 122',     postcode: '2300', gemeente: 'Turnhout',       tel: '014 41 57 26', email: 'contact@slagerijdockx.be',      lat: 51.3147798, lng: 4.9294483, ambiorixx: false },
+      { id: 6,  naam: 'Hoevewinkel Trezemieke',         straat: 'Goorstraat 35',               postcode: '2470', gemeente: 'Retie',          tel: '0479 68 45 59', email: 'info@trezemieke.be',            lat: 51.2786028, lng: 5.1015551, ambiorixx: false },
+      { id: 7,  naam: 'Hoevewinkel De Kipcorner',       straat: 'Tereik 72',                  postcode: '2990', gemeente: 'Wuustwezel',     tel: '0471 46 70 03', email: '',                              lat: 51.4160419, lng: 4.6271891, ambiorixx: false },
+      { id: 8,  naam: 'Slagerij Geert, Wendy en Zonen', straat: 'Sint-Martinusstraat 8',      postcode: '2470', gemeente: 'Retie',          tel: '0473 74 76 15', email: '',                              lat: 51.2662016, lng: 5.0847326, ambiorixx: false },
+      { id: 9,  naam: 'Slagerij Huysmans-Vandeweyer',   straat: 'Meistraat 113',              postcode: '2480', gemeente: 'Dessel',         tel: '014 37 89 41', email: 'info@stevenhuysmans.be',         lat: 51.2403048, lng: 5.1422155, ambiorixx: false },
+      { id: 10, naam: 'Slagerij De Tram',               straat: 'Turnhoutsebaan 57',           postcode: '2390', gemeente: 'Oostmalle',      tel: '03 312 10 10', email: 'info@detram.be',                lat: 51.3015571, lng: 4.7397202, ambiorixx: false },
+      { id: 11, naam: 'Slagerij Havermans',             straat: 'Houtseweg 41',                postcode: '2340', gemeente: 'Beerse',         tel: '014 61 41 41', email: 'info@havermans.be',              lat: 51.3210689, lng: 4.8446330, ambiorixx: false },
+      { id: 12, naam: 'Slagerij Youri en Veerle',       straat: 'Leistraat 86',                postcode: '2460', gemeente: 'Lichtaart',      tel: '014 55 63 54', email: 'Youri.proost@klasseslager.be',  lat: 51.2248074, lng: 4.9165745, ambiorixx: false },
+      { id: 13, naam: 'Butcher Bart',                   straat: 'Handelslei 18',               postcode: '2980', gemeente: 'Zoersel',        tel: '03 383 07 33', email: 'info@butcherbart.be',            lat: 51.2633914, lng: 4.6336129, ambiorixx: false },
+      { id: 14, naam: 'Slagerij Buermans',              straat: 'Dorp 69',                     postcode: '2230', gemeente: 'Herselt',        tel: '014 54 30 58', email: 'info@slagerijbuermans.be',       lat: 51.0528778, lng: 4.8823963, ambiorixx: false },
+      { id: 15, naam: 'Keurslager Tom',                 straat: 'Antwerpsesteenweg 158',       postcode: '2950', gemeente: 'Kapellen',       tel: '03 345 29 62', email: '',                              lat: 51.3075174, lng: 4.4328261, ambiorixx: false },
+      { id: 16, naam: 'Slagerij Wannes',                straat: 'De Keyserhoeve 63',           postcode: '2040', gemeente: 'Zandvliet',      tel: '03 568 61 18', email: '',                              lat: 51.3596179, lng: 4.3121684, ambiorixx: false },
+      { id: 17, naam: 'De Vershoek',                    straat: 'August Petenlei',             postcode: '2100', gemeente: 'Deurne',         tel: '03 542 38 61', email: 'devershoekdeurne@gmail.com',    lat: 51.2042417, lng: 4.4613830, ambiorixx: false },
+      { id: 18, naam: 'Slagerij Jemi',                  straat: 'Berkenlaan 36',               postcode: '2610', gemeente: 'Wilrijk',        tel: '0478 76 94 99', email: 'info@slagerij-jemi.be',        lat: 51.1823704, lng: 4.3948515, ambiorixx: false },
+      { id: 19, naam: 'Slagerij Jens en Jana',          straat: 'Tervuursesteenweg 238',       postcode: '1981', gemeente: 'Zemst',          tel: '015 61 43 17', email: '',                              lat: 50.9913309, lng: 4.4923498, ambiorixx: false },
+      { id: 20, naam: 'Slagerij Bovyn',                 straat: 'Koningsplein 39',             postcode: '2500', gemeente: 'Koningshooikt',  tel: '03 482 14 47', email: 'info@slagerijbovyn.be',         lat: 51.0948535, lng: 4.6110598, ambiorixx: false },
+      { id: 21, naam: 'Slagerij Dockx',                 straat: 'Hoogstraat 25',               postcode: '2800', gemeente: 'Mechelen',       tel: '015 33 09 17', email: 'slagerijdockx@telenet.be',      lat: 51.0233274, lng: 4.4751437, ambiorixx: false },
+      { id: 22, naam: 'Slagerij Volkaerts',             straat: 'Frederik de Merodestraat 46', postcode: '2800', gemeente: 'Mechelen',       tel: '',             email: 'info@slagerijvolkaerts.be',     lat: 51.0305165, lng: 4.4824838, ambiorixx: false },
+      { id: 23, naam: 'Delicatessen Chris',             straat: 'Rechtestraat 7',              postcode: '2500', gemeente: 'Lier',           tel: '03 480 12 18', email: 'info@delicatessen-chris.be',    lat: 51.1303703, lng: 4.5718968, ambiorixx: false },
+      { id: 24, naam: 'Versmarkt De Jachthoorn',        straat: 'Vrijheid 198',                postcode: '2320', gemeente: 'Hoogstraten',    tel: '',             email: 'winkel@versmarkt.be',           lat: 51.4051626, lng: 4.7629636, ambiorixx: false },
+      { id: 25, naam: 'Horeca Meat Service',            straat: 'Moerbroek 26',                postcode: '2270', gemeente: 'Herenthout',     tel: '014 85 45 00', email: 'info@horecameatservice.com',    lat: 51.1538565, lng: 4.7970339, ambiorixx: false },
+    ];
+
+    /* ── LEAFLET KAART ── */
+    const kaart = L.map('kaart');
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom: 19
+    }).addTo(kaart);
+
+    /* ── MARKERS ── */
+    function maakMarkerIcon(actief) {
+      const r = actief ? 8 : 6;
+      const border = actief ? 3 : 2;
+      const shadow = actief ? '0 2px 8px rgba(0,0,0,0.45)' : '0 1px 4px rgba(0,0,0,0.3)';
+      return L.divIcon({
+        className: '',
+        html: '<div style="width:' + (r * 2) + 'px;height:' + (r * 2) + 'px;background:#8B2635;border:' + border + 'px solid #fff;border-radius:50%;box-shadow:' + shadow + ';transition:all 0.2s"></div>',
+        iconSize: [r * 2, r * 2],
+        iconAnchor: [r, r],
+        popupAnchor: [0, -(r + 4)]
+      });
+    }
+
+    const markerMap = {};
+    let actieveId = null;
+
+    function setActief(id) {
+      if (actieveId !== null) {
+        const prevEl = document.getElementById('slager-' + actieveId);
+        if (prevEl) prevEl.classList.remove('actief');
+        if (markerMap[actieveId]) markerMap[actieveId].setIcon(maakMarkerIcon(false));
+      }
+      actieveId = id;
+      const el = document.getElementById('slager-' + id);
+      if (el) {
+        el.classList.add('actief');
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (markerMap[id]) markerMap[id].setIcon(maakMarkerIcon(true));
+    }
+
+    slagers.forEach(function(s) {
+      var popupHtml = '<p class="leaflet-popup-naam">' + s.naam + '</p>' +
+        '<p class="leaflet-popup-adres">' + s.straat + '<br>' + s.postcode + ' ' + s.gemeente + '</p>' +
+        (s.tel ? '<p class="leaflet-popup-contact"><a href="tel:' + s.tel.replace(/ /g, '') + '">' + s.tel + '</a></p>' : '') +
+        (s.email ? '<p class="leaflet-popup-contact"><a href="mailto:' + s.email + '">' + s.email + '</a></p>' : '');
+
+      var marker = L.marker([s.lat, s.lng], { icon: maakMarkerIcon(false) })
+        .addTo(kaart)
+        .bindPopup(popupHtml, { maxWidth: 240 });
+
+      marker.on('click', function() {
+        setActief(s.id);
+      });
+
+      markerMap[s.id] = marker;
+    });
+
+    /* ── LIJST RENDEREN ── */
+    function renderLijst(items) {
+      var lijst = document.getElementById('slagerLijst');
+      lijst.innerHTML = '';
+
+      items.forEach(function(s) {
+        var div = document.createElement('div');
+        div.className = 'slager-item';
+        div.id = 'slager-' + s.id;
+
+        var html = '<p class="slager-item__gemeente">' + s.gemeente + '</p>' +
+          '<p class="slager-item__naam">' + s.naam + '</p>' +
+          '<p class="slager-item__adres">' + s.straat + ', ' + s.postcode + ' ' + s.gemeente + '</p>';
+
+        if (s.tel) {
+          html += '<p class="slager-item__contact">' +
+            '<a href="tel:' + s.tel.replace(/ /g, '') + '">' + s.tel + '</a>' +
+            '<button class="copy-btn" data-copy="' + s.tel + '" aria-label="Kopieer telefoonnummer">' + COPY_SVG + '</button>' +
+            '</p>';
+        }
+
+        if (s.email) {
+          html += '<p class="slager-item__contact">' +
+            '<a href="mailto:' + s.email + '">' + s.email + '</a>' +
+            '<button class="copy-btn" data-copy="' + s.email + '" aria-label="Kopieer e-mailadres">' + COPY_SVG + '</button>' +
+            '</p>';
+        }
+
+        div.innerHTML = html;
+
+        div.addEventListener('click', function(e) {
+          if (e.target.closest('.copy-btn')) return;
+          setActief(s.id);
+          kaart.flyTo([s.lat, s.lng], 14, { duration: 0.7 });
+          markerMap[s.id].openPopup();
+        });
+
+        lijst.appendChild(div);
+      });
+
+      attachCopyHandlers(lijst);
+
+      var teller = document.getElementById('lijstTeller');
+      if (teller) teller.textContent = items.length + ' verkooppunt' + (items.length !== 1 ? 'en' : '');
+    }
+
+    /* ── ZOEKEN EN FILTEREN ── */
+    var huidigFilter = slagers;
+
+    function filterSlagers() {
+      var zoek = document.getElementById('zoekInput').value.toLowerCase().trim();
+
+      var gefilterd = slagers.filter(function(s) {
+        if (!zoek) return true;
+        return s.gemeente.toLowerCase().includes(zoek) ||
+          s.postcode.includes(zoek) ||
+          s.naam.toLowerCase().includes(zoek) ||
+          s.straat.toLowerCase().includes(zoek);
+      });
+
+      huidigFilter = gefilterd;
+
+      slagers.forEach(function(s) {
+        var zichtbaar = gefilterd.some(function(f) { return f.id === s.id; });
+        if (zichtbaar) {
+          if (!kaart.hasLayer(markerMap[s.id])) markerMap[s.id].addTo(kaart);
+        } else {
+          if (kaart.hasLayer(markerMap[s.id])) kaart.removeLayer(markerMap[s.id]);
+        }
+      });
+
+      renderLijst(gefilterd);
+
+      var geenResultaten = document.getElementById('geenResultaten');
+      geenResultaten.classList.toggle('verborgen', gefilterd.length > 0);
+
+      if (gefilterd.length > 0) {
+        var latLngs = gefilterd.map(function(s) { return [s.lat, s.lng]; });
+        kaart.fitBounds(latLngs, { padding: [40, 40] });
+      }
+    }
+
+    document.getElementById('zoekInput').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') filterSlagers();
+    });
+
+    /* ── INITIALISATIE ── */
+    renderLijst(slagers);
+
+    var allLatLngs = slagers.map(function(s) { return [s.lat, s.lng]; });
+    kaart.fitBounds(allLatLngs, { padding: [40, 40] });
+  </script>
+
+</body>
+</html>

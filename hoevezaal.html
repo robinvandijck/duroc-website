@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hoevezaal 't Perspektief — zaalverhuur op de boerderij van Familie Van Dijck in Weelde. Voor bedrijven en particulieren.">
+  <title>Hoevezaal 't Perspektief — Duroc de Kempen</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="index.html" class="nav__logo">
+        <img src="logo_duroc_de_kempen.png" alt="Duroc de Kempen" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+        <span class="nav__logo-text" style="display:none">Duroc de Kempen</span>
+      </a>
+      <ul class="nav__links">
+        <li><a href="over-ons.html">Over ons</a></li>
+        <li><a href="uit-eigen-stal.html">Uit eigen stal</a></li>
+        <li><a href="verkooppunten.html">Verkooppunten</a></li>
+        <li><a href="hoevezaal.html">Hoevezaal 't Perspektief</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button class="nav__toggle" aria-label="Menu openen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="page-hero">
+      <div class="page-hero__inner container">
+        <p class="page-hero__eyebrow">Weelde</p>
+        <h1 class="page-hero__titel">Hoevezaal<br>'t Perspektief</h1>
+        <p class="page-hero__tekst">Een sfeervolle ruimte in onze kijkstal. Voor bedrijven en particulieren die op zoek zijn naar een unieke locatie voor hun vergadering of evenement.</p>
+      </div>
+    </section>
+
+    <!-- DE LOCATIE -->
+    <section class="sectie sectie--wit">
+      <div class="grid-2 container" style="align-items:center">
+        <div>
+          <span class="s-label">De locatie</span>
+          <h2 class="s-titel">In onze stal,<br>met zicht op de varkens.</h2>
+          <p class="s-tekst" style="margin-bottom:1.25rem">Hoevezaal 't Perspektief opende in 2023. Vanuit de hoevezaal heb je via twee ramen direct zicht op de varkens. Een sfeervolle ruimte op onze boerderij in de Kempen, met een verhaal.</p>
+          <p class="s-tekst">Of je nu een vergadering, een teamdag, een familiefeest of een communiefeest organiseert: 't Perspektief biedt de ruimte. Bij een reservatie kan je ook een rondleiding boeken waarbij Ann je meeneemt langs de kijkgang.</p>
+        </div>
+        <div class="foto-ph foto-ph--4x3">
+          <span class="foto-ph__label">Foto: hoevezaal interieur</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESERVATIEFORMULIER -->
+    <section id="reservatie" class="sectie reservatie-form-sectie">
+      <div class="container" style="max-width:680px">
+        <p style="font-family:var(--font-display); font-style:italic; font-size:clamp(1.1rem,2vw,1.35rem); line-height:1.45; color:var(--donker); margin-bottom:2.5rem">Een bedrijfsevent, een familiefeest, of gewoon een unieke plek voor je volgende bijeenkomst? Hoevezaal 't Perspektief is dé locatie in de Kempen.</p>
+        <span class="s-label">Reservatie</span>
+        <h2 class="s-titel">Vraag je datum aan.</h2>
+        <p class="s-tekst" style="margin-bottom:2rem">Laat je gegevens achter en we contacteren je binnen de week om samen te bekijken wat we voor je kunnen betekenen.</p>
+
+        <form id="reservatie-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="PLAATS_HIER_JE_WEB3FORMS_KEY">
+          <input type="hidden" name="subject" value="Reservatieaanvraag Hoevezaal 't Perspektief">
+          <input type="hidden" name="from_name" value="Website Duroc de Kempen">
+          <input type="hidden" name="redirect" value="false">
+          <input type="checkbox" name="botcheck" style="display:none">
+
+          <div class="form-veld">
+            <label for="naam" class="form-label">Naam</label>
+            <input type="text" id="naam" name="naam" class="form-input" required>
+          </div>
+
+          <div class="form-veld">
+            <label for="contact" class="form-label">Telefoon of e-mail</label>
+            <input type="text" id="contact" name="contact" class="form-input" required>
+          </div>
+
+          <div class="form-veld">
+            <label for="datum" class="form-label">Gewenste datum of periode</label>
+            <input type="text" id="datum" name="datum" class="form-input" placeholder="bijv. 15 september 2026 of herfst 2026">
+          </div>
+
+          <div class="form-veld">
+            <label for="bericht" class="form-label">Vertel ons kort over je event</label>
+            <textarea id="bericht" name="bericht" class="form-textarea" placeholder="Aantal personen, type gelegenheid…"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primair">Verstuur aanvraag</button>
+        </form>
+
+        <div id="reservatie-bevestiging" class="form-bevestiging">
+          <p>Bedankt voor je aanvraag. We nemen binnen de week contact op.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRAKTISCHE INFO -->
+    <section class="sectie sectie--wit">
+      <div class="container">
+        <span class="s-label">Praktisch</span>
+        <h2 class="s-titel">Wat je moet weten.</h2>
+        <div class="info-rij">
+          <div class="info-kaart">
+            <p class="info-kaart__label">Locatie</p>
+            <p class="info-kaart__waarde">Hegge 111</p>
+            <p class="info-kaart__detail">2381 Weelde<br>Noorderkempen</p>
+          </div>
+          <div class="info-kaart">
+            <p class="info-kaart__label">Boeken</p>
+            <p class="info-kaart__waarde">Per dagdeel</p>
+            <p class="info-kaart__detail">Voormiddag, namiddag<br>of avond</p>
+          </div>
+          <div class="info-kaart">
+            <p class="info-kaart__label">Capaciteit</p>
+            <p class="info-kaart__waarde">Tot 100 personen</p>
+            <p class="info-kaart__detail">50 zittend met tafels<br>100 zittend zonder tafels</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem">
+          <div style="padding:1.5rem; border:1px solid var(--border); border-radius:3px">
+            <p style="font-family:var(--font-accent); font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--rood); margin-bottom:0.5rem">Faciliteiten</p>
+            <p style="font-size:0.9rem; color:var(--grijs); line-height:1.65; margin:0">Wi-Fi en groot TV-scherm aanwezig.</p>
+          </div>
+          <div style="padding:1.5rem; border:1px solid var(--border); border-radius:3px">
+            <p style="font-family:var(--font-accent); font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--rood); margin-bottom:0.5rem">Catering</p>
+            <p style="font-size:0.9rem; color:var(--grijs); line-height:1.65; margin:0">Warme dranken, frisse pint, broodjeslunch of barbecue. We helpen je graag bij het regelen van de gepaste catering.</p>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-top:1.5rem">
+          <div style="padding:1.5rem; border:1px solid var(--border); border-radius:3px">
+            <p style="font-family:var(--font-accent); font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--rood); margin-bottom:0.5rem">Reservatie</p>
+            <p style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--donker); margin-bottom:0.4rem">Bel of stuur een mail</p>
+            <p style="font-size:0.9rem; color:var(--grijs); line-height:1.65; margin:0">
+              <a href="tel:+32472946350" style="color:var(--donker)">0472 94 63 50</a><button class="copy-btn" data-copy="0472 94 63 50" aria-label="Kopieer telefoonnummer"><svg class="copy-btn__copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 0 1 1-1h8"/></svg><svg class="copy-btn__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg></button><br>
+              <a href="mailto:info@durocdekempen.be" style="color:var(--donker)">info@durocdekempen.be</a><button class="copy-btn" data-copy="info@durocdekempen.be" aria-label="Kopieer e-mailadres"><svg class="copy-btn__copy" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="1"/><path d="M3 11V3a1 1 0 0 1 1-1h8"/></svg><svg class="copy-btn__check" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg></button>
+            </p>
+          </div>
+          <div style="padding:1.5rem; border:1px solid var(--border); border-radius:3px">
+            <p style="font-family:var(--font-accent); font-size:10.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--rood); margin-bottom:0.5rem">Tarieven</p>
+            <p style="font-size:0.9rem; color:var(--grijs); line-height:1.65; margin:0">Contacteer ons als je graag info wil over de tarieven en de beschikbaarheid van de hoevezaal.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GETUIGENISSEN -->
+    <section class="sectie sectie--creme">
+      <div class="container">
+        <span class="s-label">Wat ze zeggen</span>
+        <div class="getuigenis-grid">
+          <div class="getuigenis-ph">
+            <div class="getuigenis-ph__auteur">
+              <div class="getuigenis-ph__foto"></div>
+              <div>
+                <p class="getuigenis-ph__naam">Bedrijf</p>
+              </div>
+            </div>
+            <p class="getuigenis-ph__tekst">Getuigenis volgt binnenkort.</p>
+          </div>
+          <div class="getuigenis-ph">
+            <div class="getuigenis-ph__auteur">
+              <div class="getuigenis-ph__foto"></div>
+              <div>
+                <p class="getuigenis-ph__naam">Particulier</p>
+              </div>
+            </div>
+            <p class="getuigenis-ph__tekst">Getuigenis volgt binnenkort.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KIJKGANG -->
+    <section class="sectie sectie--donker">
+      <div class="grid-2 container" style="align-items:center">
+        <div class="foto-ph foto-ph--4x3">
+          <img src="images/biggen/Opening kijkstal (148 van 229) (2).jpg" alt="Kijkgang Duroc de Kempen">
+        </div>
+        <div>
+          <span class="s-label" style="color:rgba(255,255,255,0.32); border-bottom-color:rgba(255,255,255,0.08)">Transparantie</span>
+          <h2 class="s-titel">De kijkgang</h2>
+          <p class="s-tekst" style="margin-bottom:1.25rem">Via de kijkgang kunnen bezoekers onze Duroc-varkens observeren zonder de stal te betreden. De kijkgang loopt langs de volledige zijkant van de stal. Vanuit de hoevezaal heb je al zicht op de varkens via twee grote ramen.</p>
+          <p class="s-tekst" style="margin-bottom:1.25rem">Voor bedrijfsgroepen is dit een concrete manier om te laten zien waar het vlees vandaan komt. De rondleiding wordt persoonlijk begeleid door Ann.</p>
+          <div class="kader">
+            Een rondleiding via de kijkgang is mogelijk op aanvraag bij je boeking. Ann begeleidt je persoonlijk langs de Duroc-varkens.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VOOR WIE -->
+    <section class="sectie sectie--creme">
+      <div class="container">
+        <span class="s-label">Voor wie</span>
+        <h2 class="s-titel" style="margin-bottom:0.5rem">Bedrijven en particulieren.</h2>
+        <p class="s-tekst" style="margin-bottom:0">We verwelkomen zowel bedrijven als particulieren.</p>
+        <div class="doelgroep-grid">
+          <div class="doelgroep-item">
+            <h3 class="doelgroep-item__titel">Bedrijven</h3>
+            <p class="doelgroep-item__tekst">Een locatie die gespreksonderwerp is nog voor de vergadering begint. 't Perspektief is geschikt voor kleine teams en grotere groepen.</p>
+            <ul>
+              <li>Vergaderingen en workshops</li>
+              <li>Teambuilding en bedrijfsuitstap</li>
+              <li>Bedrijfsfeest en eindejaarsreceptie</li>
+              <li>Productpresentatie of klantenevent</li>
+              <li>Rondleiding via kijkgang op aanvraag</li>
+            </ul>
+          </div>
+          <div class="doelgroep-item">
+            <h3 class="doelgroep-item__titel">Particulieren</h3>
+            <p class="doelgroep-item__tekst">Een familiefeest op een plek die mensen bijblijft. Rust, ruimte en de authenticiteit van een echte boerderij in de Kempen, op een boogscheut van Turnhout en Hoogstraten.</p>
+            <ul>
+              <li>Familiefeest en verjaardag</li>
+              <li>Communiefeest en lentefeest</li>
+              <li>Jubileum of huwelijksreceptie</li>
+              <li>Doopfeest en privé-evenement</li>
+              <li>Rondleiding via kijkgang op aanvraag</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOTO SFEER -->
+    <section class="sectie sectie--donker">
+      <div class="container">
+        <span class="s-label" style="color:rgba(255,255,255,0.32); border-bottom-color:rgba(255,255,255,0.08)">Sfeer</span>
+        <div class="grid-3" style="background:rgba(255,255,255,0.05); margin-top:1rem; gap:1rem">
+          <div class="foto-ph foto-ph--1x1">
+            <span class="foto-ph__label">Foto zaal</span>
+          </div>
+          <div class="foto-ph foto-ph--1x1">
+            <img src="images/kijkstal/Website (52 van 96).jpg" alt="Kijkgang van buiten">
+          </div>
+          <div class="foto-ph foto-ph--1x1">
+            <img src="images/kijkstal/week van de bij_2024_Gert Daemen (15 van 16).jpg" alt="Hoevezaal 't Perspektief exterieur">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <img src="logo_duroc_de_kempen.png" alt="Duroc de Kempen" class="footer__logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+          <span class="footer__logo-text" style="display:none">Duroc de Kempen</span>
+          <p class="footer__tagline">Duroc vlees uit eigen stal.<br>Gekweekt in de Kempen, van begin tot eind.</p>
+        </div>
+        <div>
+          <p class="footer__heading">Navigatie</p>
+          <nav class="footer__nav">
+            <a href="over-ons.html">Over ons</a>
+            <a href="uit-eigen-stal.html">Uit eigen stal</a>
+            <a href="verkooppunten.html">Verkooppunten</a>
+            <a href="hoevezaal.html">Hoevezaal 't Perspektief</a>
+            <a href="contact.html">Contact</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer__heading">Contact</p>
+          <address class="footer__adres">
+            Hegge 111<br>
+            2381 Weelde<br>
+            <br>
+            Ann &amp; Frank Van Dijck
+          </address>
+        </div>
+      </div>
+      <p class="footer__bottom">© 2026 Duroc de Kempen, Familie Van Dijck</p>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.nav__toggle');
+    const links = document.querySelector('.nav__links');
+    toggle.addEventListener('click', () => links.classList.toggle('open'));
+
+    const path = location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav__links a').forEach(a => {
+      if (a.getAttribute('href') === path) a.classList.add('actief');
+    });
+
+    const reservatieForm = document.getElementById('reservatie-form');
+    const reservatieBevestiging = document.getElementById('reservatie-bevestiging');
+    if (reservatieForm) {
+      reservatieForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const submitBtn = reservatieForm.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verzenden…';
+        try {
+          const res = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: new FormData(reservatieForm)
+          });
+          if (res.ok) {
+            reservatieForm.style.display = 'none';
+            reservatieBevestiging.style.display = 'block';
+          } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Verstuur aanvraag';
+            alert('Er is iets misgegaan. Probeer het opnieuw of contacteer ons via telefoon.');
+          }
+        } catch {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Verstuur aanvraag';
+          alert('Er is iets misgegaan. Probeer het opnieuw of contacteer ons via telefoon.');
+        }
+      });
+    }
+
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+          btn.classList.add('copied');
+          try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator(); const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.type = 'sine'; osc.frequency.value = 880;
+            gain.gain.setValueAtTime(0.07, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+            osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.25);
+          } catch(e) {}
+          setTimeout(() => btn.classList.remove('copied'), 2000);
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
