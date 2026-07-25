@@ -991,6 +991,8 @@ img.footer__logo {
   .grid-2 { grid-template-columns: 1fr; }
   .grid-3 {
     grid-template-columns: 1fr;
+    padding-left: clamp(1.25rem, 5vw, 2.5rem);
+    padding-right: clamp(1.25rem, 5vw, 2.5rem);
   }
   .grid-3 .pijler {
     border-right: none;
@@ -1009,6 +1011,7 @@ img.footer__logo {
   .doelgroep-grid { grid-template-columns: 1fr; }
   .grid-2-sym { grid-template-columns: 1fr; }
   .hero__deco { display: none; }
+  .testimonial-grid--2 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -1036,11 +1039,58 @@ img.footer__logo {
     display: flex;
   }
 
+  /* Kleiner logo op mobiel */
+  .nav__logo img { height: 42px; }
+
   .slager-lijst { grid-template-columns: 1fr; }
   .footer__grid { grid-template-columns: 1fr; gap: 2rem; }
   .info-rij { grid-template-columns: 1fr; }
   .hero__ctas { flex-direction: column; align-items: flex-start; }
   .usp-grid { grid-template-columns: 1fr; }
+
+  /* Hero: toon foto als achtergrond op mobiel */
+  .hero__deco {
+    display: block;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  .hero__deco-foto img { opacity: 0.18; }
+
+  /* Minder verticale ruimte op kleine schermen */
+  .sectie { padding: clamp(2.5rem, 6vh, 4rem) 0; }
+  .hero__inner {
+    padding-top: clamp(2.75rem, 8vh, 5rem);
+    padding-bottom: clamp(2.5rem, 6vh, 4rem);
+  }
+  .hero__eyebrow { margin-bottom: 1rem; }
+  .hero__sub { margin-bottom: 1.75rem; }
+  .page-hero__inner {
+    padding-top: clamp(2rem, 5vh, 3.5rem);
+    padding-bottom: clamp(1.75rem, 4vh, 3rem);
+  }
+
+  /* Betere touch-doelwitten voor knoppen */
+  .btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* CTA strip: knop volle breedte op mobiel */
+  .cta-strip__inner { text-align: center; }
+  .cta-strip__inner .btn { width: 100%; }
+
+  /* Woordbreuk voor lange e-mailadressen */
+  .contact-home__line,
+  .contact-home__line a {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: clamp(0.9rem, 4vw, 1.125rem);
+  }
 }
 
 /* ── COPY BUTTON ── */
@@ -1073,6 +1123,10 @@ img.footer__logo {
   gap: 2.5rem;
   margin-top: 2rem;
   align-items: start;
+}
+
+.testimonial-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .testimonial-grid .testimonial__inner {
