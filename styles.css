@@ -255,7 +255,8 @@ ul { list-style: none; }
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: clamp(5rem, 10vh, 8rem) 0 clamp(4.5rem, 8vh, 7rem);
+  padding-top: clamp(5rem, 10vh, 8rem);
+  padding-bottom: clamp(4.5rem, 8vh, 7rem);
 }
 
 .hero__eyebrow {
@@ -298,7 +299,8 @@ ul { list-style: none; }
 }
 
 .page-hero__inner {
-  padding: clamp(3rem, 6vh, 5rem) 0 clamp(2.5rem, 5vh, 4rem);
+  padding-top: clamp(3rem, 6vh, 5rem);
+  padding-bottom: clamp(2.5rem, 5vh, 4rem);
 }
 
 .page-hero__eyebrow {
